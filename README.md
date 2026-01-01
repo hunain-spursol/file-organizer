@@ -46,8 +46,45 @@ file-organizer/
 
 ## Installation
 
+### For Users
+
 1. Clone or download this repository
 2. No external dependencies required (uses only Python standard library)
+
+```bash
+python main.py
+```
+
+### For Developers
+
+1. Clone the repository
+2. Set up the development environment with virtual environment:
+
+**Windows:**
+```bash
+setup_dev.bat
+```
+
+**Linux/Mac:**
+```bash
+chmod +x setup_dev.sh
+./setup_dev.sh
+```
+
+**Or manually:**
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Linux/Mac:
+source venv/bin/activate
+
+# Install dev dependencies
+pip install -r requirements-dev.txt
+```
 
 ## Usage
 
@@ -62,6 +99,56 @@ Follow the interactive menu to:
 2. Choose an organization method
 3. Preview changes with dry run
 4. Apply changes or undo if needed
+
+## Testing
+
+The project includes comprehensive tests covering all functionality.
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage report
+pytest --cov=src/file_organizer --cov-report=html
+
+# Run only unit tests
+pytest tests/unit/
+
+# Run only integration tests
+pytest tests/integration/
+
+# Run specific test file
+pytest tests/unit/test_organizer.py
+
+# Use the test runner script
+python run_tests.py all          # Run all tests
+python run_tests.py unit         # Unit tests only
+python run_tests.py integration  # Integration tests only
+python run_tests.py coverage     # With coverage report
+```
+
+### Test Structure
+
+```
+tests/
+├── conftest.py                 # Shared fixtures
+├── unit/                       # Unit tests
+│   ├── test_organizer.py       # Core organizer tests
+│   ├── test_analyzer.py        # Analyzer tests
+│   ├── test_strategies/        # Strategy tests
+│   │   ├── test_by_type.py
+│   │   ├── test_by_date.py
+│   │   ├── test_by_size.py
+│   │   └── test_duplicates.py
+│   └── test_utils/             # Utility tests
+│       ├── test_file_hash.py
+│       ├── test_formatter.py
+│       └── test_undo_manager.py
+└── integration/                # Integration tests
+    └── test_end_to_end.py      # End-to-end workflows
+```
 
 ## Architecture
 
