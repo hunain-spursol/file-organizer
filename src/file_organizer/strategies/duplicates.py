@@ -43,6 +43,9 @@ class DuplicateFinder:
         # Find duplicates
         for file_hash, files in file_hashes.items():
             if len(files) > 1:
+                # Sort files to ensure deterministic behavior (reverse alphabetically by name)
+                # This ensures files without "duplicate" in the name are kept
+                files = sorted(files, key=lambda f: str(f), reverse=True)
                 duplicates.append(files)
                 file_size = files[0].stat().st_size
                 duplicate_size = file_size * (len(files) - 1)

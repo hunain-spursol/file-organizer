@@ -19,7 +19,7 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 3
-        tiny_dir = temp_dir / 'Tiny (< 1MB)'
+        tiny_dir = temp_dir / 'Tiny (under 1MB)'
         assert tiny_dir.exists()
         assert (tiny_dir / 'tiny0.txt').exists()
         assert (tiny_dir / 'tiny1.txt').exists()
@@ -68,7 +68,7 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 1
-        assert (temp_dir / 'Huge (> 1GB)' / 'huge.dat').exists()
+        assert (temp_dir / 'Huge (over 1GB)' / 'huge.dat').exists()
 
     def test_organize_mixed_sizes(self, temp_dir):
         """Test organizing files of different sizes."""
@@ -86,7 +86,7 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 3
-        assert (temp_dir / 'Tiny (< 1MB)' / 'tiny.txt').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'tiny.txt').exists()
         assert (temp_dir / 'Small (1-10MB)' / 'small.dat').exists()
         assert (temp_dir / 'Medium (10-100MB)' / 'medium.bin').exists()
 
@@ -121,7 +121,7 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 1
-        assert (temp_dir / 'Tiny (< 1MB)' / 'empty.txt').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'empty.txt').exists()
 
     def test_organize_dry_run(self, temp_dir):
         """Test dry run mode doesn't move files."""
@@ -134,7 +134,7 @@ class TestOrganizeBySize:
         assert result == 1
         # File should not be moved
         assert file.exists()
-        assert not (temp_dir / 'Tiny (< 1MB)').exists()
+        assert not (temp_dir / 'Tiny (under 1MB)').exists()
 
     def test_organize_empty_directory(self, temp_dir):
         """Test organizing an empty directory."""
@@ -152,7 +152,7 @@ class TestOrganizeBySize:
         strategy = OrganizeBySize()
         strategy.organize(temp_dir)
 
-        moved_file = temp_dir / 'Tiny (< 1MB)' / 'important.bin'
+        moved_file = temp_dir / 'Tiny (under 1MB)' / 'important.bin'
         assert moved_file.read_bytes() == content
 
     def test_organize_with_undo_manager(self, temp_dir):
@@ -195,7 +195,7 @@ class TestOrganizeBySize:
         strategy = OrganizeBySize()
         strategy.organize(temp_dir)
 
-        size_dir = temp_dir / 'Tiny (< 1MB)'
+        size_dir = temp_dir / 'Tiny (under 1MB)'
         assert size_dir.exists()
         assert size_dir.is_dir()
 
@@ -210,7 +210,7 @@ class TestOrganizeBySize:
 
         assert result == 5
 
-        tiny_dir = temp_dir / 'Tiny (< 1MB)'
+        tiny_dir = temp_dir / 'Tiny (under 1MB)'
         for i in range(5):
             assert (tiny_dir / f'file{i}.txt').exists()
 
@@ -230,7 +230,7 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 3
-        assert (temp_dir / 'Tiny (< 1MB)' / 'doc.pdf').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'doc.pdf').exists()
         assert (temp_dir / 'Small (1-10MB)' / 'image.jpg').exists()
         assert (temp_dir / 'Medium (10-100MB)' / 'video.mp4').exists()
 
@@ -271,7 +271,7 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 1
-        assert (temp_dir / 'Tiny (< 1MB)' / 'single.txt').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'single.txt').exists()
 
     def test_organize_just_under_boundary(self, temp_dir):
         """Test files just under size boundaries."""
@@ -287,13 +287,13 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir)
 
         assert result == 2
-        assert (temp_dir / 'Tiny (< 1MB)' / 'under_1mb.dat').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'under_1mb.dat').exists()
         assert (temp_dir / 'Small (1-10MB)' / 'under_10mb.dat').exists()
 
     def test_organize_handles_existing_structure(self, temp_dir):
         """Test organizing when category directories already exist."""
         # Pre-create category directory
-        tiny_dir = temp_dir / 'Tiny (< 1MB)'
+        tiny_dir = temp_dir / 'Tiny (under 1MB)'
         tiny_dir.mkdir()
         (tiny_dir / 'existing.txt').write_bytes(b'existing')
 
@@ -340,6 +340,6 @@ class TestOrganizeBySize:
         result = strategy.organize(temp_dir2)
 
         assert result == 3
-        assert (temp_dir2 / 'Tiny (< 1MB)').exists()
+        assert (temp_dir2 / 'Tiny (under 1MB)').exists()
         assert (temp_dir2 / 'Small (1-10MB)').exists()
         assert (temp_dir2 / 'Medium (10-100MB)').exists()

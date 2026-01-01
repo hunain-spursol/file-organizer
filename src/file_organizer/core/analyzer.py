@@ -82,12 +82,30 @@ def clean_empty_folders(directory, dry_run=False):
     print(f"\n{'[DRY RUN] ' if dry_run else ''}Cleaning empty folders in: {directory}")
     print_separator()
 
-    for item in directory.rglob('*'):
-        if item.is_dir() and not any(item.iterdir()):
+    # Keep iterating until no more empty folders are found
+    # This handles nested empty folders where removing a child makes parent empty
+    # In dry_run mode, we only iterate once since we don't actually remove folders
+    while True:
+        empty_dirs = []
+
+        # Collect all empty directories (bottom-up by sorting by depth)
+        for item in sorted(directory.rglob('*'), key=lambda p: len(p.parts), reverse=True):
+            if item.is_dir() and not any(item.iterdir()):
+                empty_dirs.append(item)
+
+        if not empty_dirs:
+            break
+
+        # Remove all empty directories found in this iteration
+        for item in empty_dirs:
             print(f"{'[WOULD DELETE]' if dry_run else '[DELETED]'} {item.relative_to(directory)}/")
             if not dry_run:
                 item.rmdir()
             removed += 1
+
+        # In dry run mode, exit after first iteration to avoid infinite loop
+        if dry_run:
+            break
 
     print(f"\n✓ {'Would remove' if dry_run else 'Removed'} {removed} empty folders")
     return removed

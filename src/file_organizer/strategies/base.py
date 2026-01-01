@@ -40,6 +40,7 @@ class OrganizationStrategy(ABC):
         import shutil
 
         if dry_run:
+            self.files_processed += 1
             return destination
 
         destination.parent.mkdir(parents=True, exist_ok=True)

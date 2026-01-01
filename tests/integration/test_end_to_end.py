@@ -227,7 +227,7 @@ class TestCompleteWorkflows:
         assert result == 3
 
         # Verify size categories
-        assert (temp_dir / 'Tiny (< 1MB)' / 'tiny.txt').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'tiny.txt').exists()
         assert (temp_dir / 'Small (1-10MB)' / 'small.dat').exists()
         assert (temp_dir / 'Medium (10-100MB)' / 'medium.bin').exists()
 
@@ -375,7 +375,7 @@ class TestCompleteWorkflows:
 
         # Reorganize using different strategy
         organizer.organize_by_size(temp_dir)
-        assert (temp_dir / 'Tiny (< 1MB)' / 'file.txt').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'file.txt').exists()
 
     def test_empty_and_non_empty_directories(self, temp_dir):
         """Test handling mix of empty and non-empty directories."""

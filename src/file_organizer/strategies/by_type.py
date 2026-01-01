@@ -61,8 +61,15 @@ class OrganizeByType(OrganizationStrategy):
         print(f"\n{'[DRY RUN] ' if dry_run else ''}Organizing files by type in: {directory}")
         print_separator()
 
+        # Get the undo log file path to skip it during organization
+        undo_log_path = Path(self.undo_manager.log_file) if self.undo_manager else None
+
         for item in directory.iterdir():
             if item.is_file():
+                # Skip the undo log file itself
+                if undo_log_path and item.resolve() == undo_log_path.resolve():
+                    continue
+
                 category = self.get_category(item.suffix)
                 target_dir = directory / category
                 target_file = target_dir / item.name
