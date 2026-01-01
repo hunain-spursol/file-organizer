@@ -9,7 +9,8 @@
       "Bash(gh pr create:*)",
       "Bash(echo:*)",
       "Bash(gh pr list:*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
