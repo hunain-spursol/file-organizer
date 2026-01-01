@@ -203,7 +203,7 @@ class TestOrganizeBySize:
         result = organizer.organize_by_size(temp_dir)
 
         assert result == 2
-        assert (temp_dir / 'Tiny (< 1MB)' / 'tiny.txt').exists()
+        assert (temp_dir / 'Tiny (under 1MB)' / 'tiny.txt').exists()
         assert (temp_dir / 'Small (1-10MB)' / 'small.dat').exists()
 
     def test_organize_by_size_dry_run(self, temp_dir):
